@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+# from .decorators import cookie_required
+from django.contrib.auth.hashers import check_password
 from .models import *
 
 
@@ -9,79 +10,93 @@ from .models import *
 def home(request):
     return render(request,'home.html')
 
-def room(request):
-    return render(request,'room.html')
+@login_required(login_url='/login/')
+def profile(request):
+    if 'username' in request.session:
+        username = request.session['username']
+        # Fetch the student based on the username
+        student = Student.objects.get(username=username)
+        
+        # Fetch the attendance records of the student
+        attendances = Attendance.objects.filter(student=student)
+        fees = Fee.objects.filter(student=student)
+        # Extract email and room from the student object
+        email = student.email
+        room = student.room
+        
+        context = {
+            'student': student,
+            'attendances': attendances,
+            'fees':fees,
+            'email': email,
+            'room': room,
+        }
+        return render(request, 'profile.html', context)
+    else:
+        return redirect('/login/')
 
-def complaint(request):
-    return render(request,'complaint.html')
-
+# @login_required(login_url='/login/')
 def review(request):
-    return render(request,'review.html')
-
-def fee(request):
-    return render(request,'fee.html')
-
-def attendance(request):
-    return render(request,'attendance.html')
+    review = Review.objects.all()
+    return render(request,'review.html',{'review':review})
 
 
 
 def login_page(request):
-    if request.method == "POST":
+     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        existing_user = Student.objects.filter(username=username).exists()
-
-        if not existing_user:
-            messages.success(request, "Invalid Username") 
+        # Check if user exists
+        try:
+            student = Student.objects.get(username=username)
+        except Student.DoesNotExist:
+            messages.error(request, "Invalid Username")
             return redirect('/login/')
 
-        user = authenticate(username = username , password = password)
-        if user is None:
-             messages.error(request, "Invalid Password") 
-             return redirect('/login/') 
+        # Check if the provided password matches the stored hashed password
+        if not check_password(password, student.password):
+            messages.error(request, "Invalid Password")
+            return redirect('/login/')
 
-        else:
-            login(request,user)
-            return redirect('/')
+        # Set user authentication
+        request.session['username'] = username
+        print(request.session.items())
 
-    return render(request, 'login.html')
+        messages.success(request, "Login successful")
+        return redirect('/profile/')
+
+     return render(request, 'login.html')
 
 def logout_page(request):
-    logout(request)
+    if 'username' in request.session:
+        del request.session['username']
     return redirect('/login/')
 
 def Register_page(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         email = request.POST.get('email')
-        username = request.POST.get('username')
         password = request.POST.get('password')
+        username = request.POST.get('username')
 
-        # Check if username is provided in the POST request
-        if not username:
-            # Handle the case where username is not provided (you can redirect or show an error message)
-            return render(request, 'register.html', {'error_message': 'Username is required'})
-
-        # Check if the username already exists
         existing_user = Student.objects.filter(username=username).first()
-        
+
         if existing_user:
-            messages.error(request, "Username already exists") 
+            messages.error(request, "Username already exists")
             return redirect('/register/')
 
-        # Create a new user
-        # user = Student.objects.create(
-        #     email = email
-        #     username=username
-        # )
-        # user.set_password(password)
-        # user.save()
+        # Create a new Student instance
+        new_student = Student(
+            email=email,
+            username=username,
+        )
+        new_student.set_password(password)  # Set the hashed password
+        new_student.save()
+
+        # Set user authentication
+        request.session['username'] = username
 
         messages.success(request, "Account created successfully")
-        return redirect('/register/')
+        return redirect('/login/')
 
     return render(request, 'register.html')
-
-
-

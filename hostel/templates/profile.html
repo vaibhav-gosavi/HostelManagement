@@ -1,0 +1,61 @@
+<!-- hostel/templates/hostel/profile.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="h-screen w-full flex items-center justify-center dark:bg-gray-900">
+
+  <!-- Student Information -->
+  <div class="relative w-full max-w-2xl my-8 md:my-16 flex flex-col items-start space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6 px-4 py-8 border-2 border-dashed border-gray-400 dark:border-gray-400 shadow-lg rounded-lg">
+
+      <!-- Profile Image -->
+      <div class="w-full flex justify-center sm:justify-start sm:w-auto">
+          <img class="object-cover w-20 h-20 mt-3 mr-3 rounded-full" src="https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg">
+      </div>
+
+      <!-- Student Information -->
+      <div class="w-full sm:w-auto flex flex-col items-center sm:items-start">
+
+          <!-- Student Name -->
+          <div class="font-display mb-2 md:text-lg font-bold dark:text-gray-400" >
+            <p><strong>Username:</strong> {{ student.username }}</p> 
+          </div>
+
+          <!-- Student Email -->
+          <div class="mb-2 md:text-lg text-gray-400">
+              <p><strong>Email:</strong> {{ student.email }}</p>
+          </div>
+
+          <!-- Student Room -->
+          <div class="mb-2 md:text-lg text-gray-400">
+              <p><strong>Room:</strong> {{ student.room }}</p>
+          </div>
+
+          <div class="mb-4 md:text-lg text-gray-400">
+            <p><strong>Attendance:</strong>
+            
+                {% for attendance in student.attendances.all %}
+                {{ attendance.date }} - {% if attendance.present %}Present{% else %}Absent{% endif %}
+                {% endfor %}
+          </p>
+        </div>
+        <div class="mb-4 md:text-lg text-gray-400">
+          <p><strong>Fee:</strong>
+          
+            {% for fee in fees %}
+            Amount: {{ fee.amount }} - {% if fee.paid %}Paid{% else %}Not Paid{% endif %}
+            {% endfor %}
+        </p>
+      </div>
+
+          <!-- Links to Social Media or Other Profiles -->
+          <div class="flex gap-4">
+              <!-- Add links to social media or other profiles here -->
+          </div>
+      </div>
+
+  </div>
+
+</div>
+{% endblock %}

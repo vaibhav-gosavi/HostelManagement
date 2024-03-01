@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>hi everyone</h1>
+<div class="py-8">
+    <h1 class="text-2xl font-bold mb-4">Student Reviews</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for rev in review %}
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-lg font-bold">{{ rev.title }}</h2>
+                <p class="text-gray-600 mt-2">{{ rev.content }}</p>
+                <p class="text-gray-500 mt-4">Rating: {{ rev.rating }}/5</p>
+                <p class="text-gray-500 mt-2">By: {{ rev.student.username }}</p>
+            </div>
+        {% empty %}
+            <p class="text-center">No reviews found.</p>
+        {% endfor %}
+    </div>
+    <div class="grid place-items-center mt-4">
+        <button type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Add Review</button>
+    </div>
+</div>
 {% endblock %}

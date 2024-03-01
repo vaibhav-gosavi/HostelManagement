@@ -71,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hostelmanagementsystem.wsgi.application'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# SESSION_COOKIE_NAME = 'your_session_cookie_name'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -105,6 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTH_PROFILE_MODULE = 'hostel.Profile'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
