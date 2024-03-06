@@ -3,7 +3,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')
 
 import django
 django.setup()
-
+from django.contrib.auth.models import User
 import random
 import string
 from django.contrib.auth.hashers import make_password
@@ -12,20 +12,33 @@ from hostel.models import Student, Room, Complaint, Review, Fee, Attendance
 
 fake = Faker()
 
-def generate_unique_student_id():
-    length = 8
-    while True:
-        student_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-        if not Student.objects.filter(student_id=student_id).exists():
-            return student_id
+# def generate_unique_student_id():
+#     length = 8
+#     while True:
+#         student_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+#         if not Student.objects.filter(student_id=student_id).exists():
+#             return student_id
 
 def seed_students(number):
     for _ in range(number):
-        student = Student(
-            username=fake.user_name(),
-            email=fake.email(),
-            password=make_password('password123'),  # Change password if needed
-            student_id=generate_unique_student_id()
+        # Generate fake data
+        username = fake.user_name()
+        email = fake.email()
+        raw_password = 'password123'  # Change password if needed
+        room = Room.objects.order_by('?').first()  # Randomly select a room
+
+        # Hash the password
+        hashed_password = make_password(raw_password)
+
+        # Create a User
+        user = User.objects.create_user(username=username, email=email, password=hashed_password)
+
+        # Create a Student
+        student = Student.objects.create(
+            username=username,
+            password=hashed_password,
+            email=email,
+            room=room
         )
         student.save()
 

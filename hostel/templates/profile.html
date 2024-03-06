@@ -1,58 +1,78 @@
-<!-- hostel/templates/hostel/profile.html -->
+ <!-- hostel/templates/hostel/profile.html -->
 
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-<div class="h-screen w-full flex items-center justify-center dark:bg-gray-900">
+<div class="h-screen flex items-center justify-center" style="background-image: url('https://img.freepik.com/free-photo/closeup-yellow-leaves-branch-with-blue-blurred-background_181624-2238.jpg?t=st=1709655005~exp=1709658605~hmac=78eef923b01e2d1460ef0877d82efabf885637b7bb54bd47a5f1134c89a5ab29&w=996'); background-size: cover; background-position: center;">
 
   <!-- Student Information -->
-  <div class="relative w-full max-w-2xl my-8 md:my-16 flex flex-col items-start space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6 px-4 py-8 border-2 border-dashed border-gray-400 dark:border-gray-400 shadow-lg rounded-lg">
+  <div class="relative w-full max-w-3xl my-8 md:my-16 flex flex-col items-center space-y-8 px-4 py-8 border-2 border-dashed border-gray-400 dark:border-gray-400 shadow-lg rounded-lg bg-black bg-opacity-80 backdrop-blur-lg">
 
       <!-- Profile Image -->
-      <div class="w-full flex justify-center sm:justify-start sm:w-auto">
-          <img class="object-cover w-20 h-20 mt-3 mr-3 rounded-full" src="https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg">
+      <div class="w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center rounded-full ">
+          <img class="object-cover w-28 h-28 rounded-full" src="https://img.freepik.com/free-photo/view-3d-man-holding-laptop_23-2150709818.jpg?t=st=1709654789~exp=1709658389~hmac=c9ea963e87d74ea1cf920f7a4d285a34f7eb7e2b957694f8f4ca78fcfb5ee13d&w=740">
       </div>
 
       <!-- Student Information -->
-      <div class="w-full sm:w-auto flex flex-col items-center sm:items-start">
+      <div class="w-full flex flex-col items-center space-y-4 text-white">
 
           <!-- Student Name -->
-          <div class="font-display mb-2 md:text-lg font-bold dark:text-gray-400" >
-            <p><strong>Username:</strong> {{ student.username }}</p> 
+          <div class="font-display text-2xl font-bold" >
+            <p><strong>Student Name : </strong>{{ student.username }}</p> 
           </div>
 
           <!-- Student Email -->
-          <div class="mb-2 md:text-lg text-gray-400">
-              <p><strong>Email:</strong> {{ student.email }}</p>
+          <div class="text-lg">
+              <p><strong>Email : </strong>{{ student.email }}</p>
           </div>
 
           <!-- Student Room -->
-          <div class="mb-2 md:text-lg text-gray-400">
-              <p><strong>Room:</strong> {{ student.room }}</p>
+          <div class="text-lg">
+              <p><strong>Room :</strong> {{ student.room }}</p>
           </div>
 
-          <div class="mb-4 md:text-lg text-gray-400">
-            <p><strong>Attendance:</strong>
-            
-                {% for attendance in student.attendances.all %}
-                {{ attendance.date }} - {% if attendance.present %}Present{% else %}Absent{% endif %}
-                {% endfor %}
-          </p>
-        </div>
-        <div class="mb-4 md:text-lg text-gray-400">
-          <p><strong>Fee:</strong>
-          
-            {% for fee in fees %}
-            Amount: {{ fee.amount }} - {% if fee.paid %}Paid{% else %}Not Paid{% endif %}
-            {% endfor %}
-        </p>
-      </div>
+          <!-- Attendance -->
+          <div class="text-lg">
+            <p><strong>Attendance : </strong></p>
+            <div class="grid grid-cols-2 gap-2">
+              {% for attendance in student.attendances.all %}
+                <p>{{ attendance.date }}</p>
+                <p>{% if attendance.present %}Present{% else %}Absent{% endif %}</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Fee -->
+          <div class="text-lg">
+            <p><strong>Fee : </strong></p>
+            <div class="grid grid-cols-2 gap-2">
+              {% for fee in fees %}
+                <p>Amount: {{ fee.amount }}</p>
+                <p>{% if fee.paid %}Paid{% else %}Not Paid{% endif %}</p>
+              {% endfor %}
+            </div>
+          </div>
 
           <!-- Links to Social Media or Other Profiles -->
-          <div class="flex gap-4">
+          <!-- <div class="flex gap-4 mt-4"> -->
               <!-- Add links to social media or other profiles here -->
-          </div>
+              <!-- <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 transition duration-300 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </a>
+              <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 transition duration-300 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </a>
+              <a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200 transition duration-300 ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </a>
+          </div> -->
       </div>
 
   </div>

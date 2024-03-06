@@ -10,13 +10,25 @@
                 <p class="text-gray-600 mt-2">{{ rev.content }}</p>
                 <p class="text-gray-500 mt-4">Rating: {{ rev.rating }}/5</p>
                 <p class="text-gray-500 mt-2">By: {{ rev.student.username }}</p>
+                
+                {% if rev.student.username == request.session.username %}
+                    <div class="flex gap-2">
+                        <!-- Delete Form -->
+                        <form action="{% url 'delete_review' rev.id %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        </form>
+                    </div>
+                {% endif %}
             </div>
         {% empty %}
             <p class="text-center">No reviews found.</p>
         {% endfor %}
     </div>
     <div class="grid place-items-center mt-4">
-        <button type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Add Review</button>
+        <a href="/addreview/" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            Add Review
+        </a>
     </div>
 </div>
 {% endblock %}
