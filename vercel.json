@@ -1,13 +1,13 @@
 {
 "builds": [{
-    "src": "hostelmanagements/wsgi.py",
+    "src": "hostelmanagementsystem/wsgi.py",
     "use": "@vercel/python",
     "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
 }],
 "routes": [
     {
         "src": "/(.*)",
-        "dest": "hostelmanagements/wsgi.py"
+        "dest": "hostelmanagementsystem/wsgi.py"
     }
 ]
 }
