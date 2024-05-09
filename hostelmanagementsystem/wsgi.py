@@ -14,3 +14,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hostelmanagementsystem.settings
 
 application = get_wsgi_application()
 
+app = application
