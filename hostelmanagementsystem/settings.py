@@ -30,7 +30,7 @@ MYSQLCLIENT_LDFLAGS = os.getenv('MYSQLCLIENT_LDFLAGS')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app','.now.sh']
 
 
 # Application definition
@@ -141,3 +141,6 @@ STATICFILES_DIRS = [
     # Other static files directories
     "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/",
 ]
+
+STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
+STATIC_URL = os.path.join(BASE_DIR,'Staticfiles_build','static')
