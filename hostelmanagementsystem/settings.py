@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-iq^@=!_)+v+$lb^$qh(d8$@sd%#c_#vvo7x5-gxtb8ajnm@=*5'
-MYSQLCLIENT_CFLAGS = os.getenv('MYSQLCLIENT_CFLAGS')
-MYSQLCLIENT_LDFLAGS = os.getenv('MYSQLCLIENT_LDFLAGS')
+# MYSQLCLIENT_CFLAGS = os.getenv('MYSQLCLIENT_CFLAGS')
+# MYSQLCLIENT_LDFLAGS = os.getenv('MYSQLCLIENT_LDFLAGS')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app','.now.sh']
+ALLOWED_HOSTS = ['.vercel.app','.now.sh','localhost','127.0.0.1']
 
 
 # Application definition
@@ -143,4 +143,4 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
-STATIC_URL = os.path.join(BASE_DIR,'Staticfiles_build','static')
+STATIC_ROOT = os.path.join(BASE_DIR,'Staticfiles_build','static')
