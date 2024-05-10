@@ -86,9 +86,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hostel',
-        'USER': 'root',
-        'PASSWORD': 'PHW#84#jeor#25',
-        'HOST': 'localhost',
+        'USER': 'sgroot',
+        'PASSWORD': 'gdlSKAKQnBt02s#H',
+        'HOST': 'SG-hostel-8463-mysql-master.servers.mongodirector.com',
         'PORT': '3306',
     }
 }
