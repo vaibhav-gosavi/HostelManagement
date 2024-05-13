@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import dj_database_url
 # from dotenv import load_dotenv
 from pathlib import Path
 
@@ -23,14 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-iq^@=!_)+v+$lb^$qh(d8$@sd%#c_#vvo7x5-gxtb8ajnm@=*5'
+# SECRET_KEY = 'django-insecure-iq^@=!_)+v+$lb^$qh(d8$@sd%#c_#vvo7x5-gxtb8ajnm@=*5'
 # MYSQLCLIENT_CFLAGS = os.getenv('MYSQLCLIENT_CFLAGS')
 # MYSQLCLIENT_LDFLAGS = os.getenv('MYSQLCLIENT_LDFLAGS')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ALLOWED_HOSTS = ['.vercel.app','.now.sh','localhost','127.0.0.1']
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get("DEBUG","False").lower() == "true"
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -93,6 +96,8 @@ DATABASES = {
     }
 }
 
+databse_url = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse("databse_url")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
