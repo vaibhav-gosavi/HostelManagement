@@ -85,19 +85,28 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hostel',
-        'USER': 'admin',
-        'PASSWORD': 'hostelmanagemenet',
-        'HOST': 'database-2.chlix7epzq06.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'dpg-cp14r7q1hbls73ekul30-a',
+#         'USER': 'admin',
+#         'PASSWORD': 'hostelmanagemenet',
+#         'HOST': 'database-2.chlix7epzq06.us-east-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
+# database_url = os.environ.get("DATABASE_URL")
+# DATABASES["default"] = dj_database_url.parse("database_url")
+
 
 database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse("database_url")
+if not database_url:
+    raise ValueError("The DATABASE_URL environment variable is not set.")
+
+DATABASES = {
+    'default': dj_database_url.parse(database_url)
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
